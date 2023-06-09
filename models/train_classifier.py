@@ -55,8 +55,7 @@ def tokenize(text):
 
 
 def build_model():
-    lr  = LogisticRegression(
-    )
+    lr  = LogisticRegression(multi_class ="multinomial")
 
     # build pipeline
     pipeline = Pipeline([('vect', CountVectorizer(tokenizer=tokenize)),
