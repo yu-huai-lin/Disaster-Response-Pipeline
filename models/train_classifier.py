@@ -21,15 +21,7 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
 
-
-def load_data(database_filepath):
-    engine = create_engine(database_filepath)
-    df = pd.read_sql_table('df', engine)  
-    
-    #Define target input and output
-    X = df['message']
-    
-    category_names = ['related', 'request', 'offer',
+category_names = ['related', 'request', 'offer',
        'aid_related', 'medical_help', 'medical_products', 'search_and_rescue',
        'security', 'military', 'child_alone', 'water', 'food', 'shelter',
        'clothing', 'money', 'missing_people', 'refugees', 'death', 'other_aid',
@@ -37,10 +29,19 @@ def load_data(database_filepath):
        'tools', 'hospitals', 'shops', 'aid_centers', 'other_infrastructure',
        'weather_related', 'floods', 'storm', 'fire', 'earthquake', 'cold',
        'other_weather', 'direct_report']
+
+
+def load_data(database_filepath, category_names):
+    #engine = create_engine(database_filepath)
+    engine=create_engine('sqlite:///data/DisasterResponse.db')
+    df = pd.read_sql_table('df', engine)  
+    
+    #Define target input and output
+    X = df['message']
     
     Y = df[category_names]
     
-    return X, Y, category_names
+    return X, Y
 
 def tokenize(text):
     tokens = word_tokenize(text)
@@ -55,7 +56,7 @@ def tokenize(text):
 
 
 def build_model():
-    lr  = LogisticRegression(multi_class ="multinomial")
+    lr  = LogisticRegression()
 
     # build pipeline
     pipeline = Pipeline([('vect', CountVectorizer(tokenizer=tokenize)),
@@ -66,12 +67,9 @@ def build_model():
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
-    
     y_pred = pipeline.predict(X_test)
-    
     accuracy = (y_pred == y_test).mean()
-    
-    print(classification_report(Y_test, y_pred)
+    print(classification_report(Y_test, y_pred))
     print("Accuracy:", accuracy)
 
 
@@ -85,7 +83,7 @@ def main():
     if len(sys.argv) == 3:
         database_filepath, model_filepath = sys.argv[1:]
         print('Loading data...\n    DATABASE: {}'.format(database_filepath))
-        X, Y, category_names = load_data(database_filepath)
+        X, Y = load_data(database_filepath, category_names )
         X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2)
         
         print('Building model...')

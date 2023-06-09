@@ -4,17 +4,14 @@ import numpy as np
 import sys
 
 
-
 def load_data(messages_filepath, categories_filepath):
     # load messages dataset
-    messages = pd.read_csv("disaster_messages.csv")
+    messages = pd.read_csv(messages_filepath)
     # load categories dataset
-    categories = pd.read_csv("disaster_categories.csv")
+    categories = pd.read_csv(categories_filepath)
     
     # merge datasets
     df = pd.merge(messages, categories, on=["id"])
-
-
     return df
 
 
@@ -34,10 +31,10 @@ def clean_data(df):
     
     for column in categories:
     # set each value to be the last character of the string
-    categories[column ] = categories[column ].apply(lambda x: x[-1])
+        categories[column ] = categories[column ].apply(lambda x: x[-1])
     
     # convert column from string to numeric
-    categories[column] = categories[column].astype(int)
+        categories[column] = categories[column].astype(int)
     
     # drop the original categories column from `df`
     df = df.drop(['categories'], axis = 1)
@@ -53,9 +50,9 @@ def clean_data(df):
 
 def save_data(df, database_filename):
     from sqlalchemy import create_engine
-    engine = create_engine(database_filename)
-    df.to_sql('df, engine, index=False)
-    
+    engine=create_engine('sqlite:///data/DisasterResponse.db')
+    #engine = create_engine(f'sqlite:/// {database_filename}')
+    df.to_sql('df', engine, index=False) 
 
 
 def main():
