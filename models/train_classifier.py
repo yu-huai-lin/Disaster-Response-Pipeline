@@ -70,7 +70,10 @@ def evaluate_model(model, X_test, Y_test, category_names):
     
     y_pred = pipeline.predict(X_test)
     
+    accuracy = (y_pred == y_test).mean()
+    
     print(classification_report(Y_test, y_pred)
+    print("Accuracy:", accuracy)
 
 
 def save_model(model, model_filepath):
