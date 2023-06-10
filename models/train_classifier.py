@@ -63,7 +63,7 @@ def build_model():
                      ("clf",MultiOutputClassifier(lr))])
     
     parameters = {
-          'clf__estimator__min_samples_split': [50, 100, 200]
+          'clf__estimator__min_samples_split': [50, 100]
     }
 
     cv = GridSearchCV(pipeline, param_grid=parameters)
