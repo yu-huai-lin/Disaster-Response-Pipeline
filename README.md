@@ -6,6 +6,9 @@ In this project, I will extract data set containing real messages that were sent
 
 The project includes a web app where an emergency worker can input a new message and get classification results in several categories. 
 
+Below is a screenshot of the web app.
+
+![](/screenshot.png)
 
 
 ### Instructions:
