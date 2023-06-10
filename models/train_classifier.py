@@ -13,7 +13,7 @@ import numpy as np
 
 from sklearn.datasets import make_multilabel_classification
 from sklearn.multioutput import MultiOutputClassifier
-from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
@@ -56,7 +56,7 @@ def tokenize(text):
 
 
 def build_model():
-    lr  = LogisticRegression()
+    lr  = RandomForestClassifier()
 
     # build pipeline
     pipeline = Pipeline([('vect', CountVectorizer(tokenizer=tokenize)),
