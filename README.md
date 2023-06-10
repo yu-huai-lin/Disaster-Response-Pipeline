@@ -28,7 +28,7 @@ Below are 2 screenshot of the web app.
 
 ![](/screenshot.png)
 
-[](/screenshot2.png)
+![](/screenshot2.png)
 
 
 ### Files in the repository
