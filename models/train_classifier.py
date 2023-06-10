@@ -63,12 +63,11 @@ def build_model():
                      ("clf",MultiOutputClassifier(lr))])
     
     parameters = {
-        'estimator__clf__estimator__n_estimators': [50, 100, 200],
-        'estimator__clf__estimator__min_samples_split': [2, 3, 4]
+          'clf__estimator__min_samples_split': [50, 100, 200]
     }
 
     cv = GridSearchCV(pipeline, param_grid=parameters)
-    print(cv.get_params().keys())
+    print(pipeline.get_params().keys())
     
     
     return cv
