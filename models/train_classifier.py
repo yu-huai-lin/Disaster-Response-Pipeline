@@ -31,6 +31,14 @@ category_names = ['related', 'request', 'offer',
 
 
 def load_data(database_filepath, category_names):
+    """
+    Function: Load the prepared table as input data source
+    Args:
+      database_filepath(str): Path to the database
+      category_names(list): List of the column names
+    Return:
+      X,Y(dataframes): Two dataframes, served as inputs and outputs of the ML model
+    """
     #engine = create_engine(database_filepath)
     engine=create_engine('sqlite:///data/DisasterResponse.db')
     df = pd.read_sql_table('df', engine)  
@@ -43,6 +51,13 @@ def load_data(database_filepath, category_names):
     return X, Y
 
 def tokenize(text):
+    """
+    Function: Clean, prepare, tokenize and lemmatize the text data for modelling
+    Args:
+      text: List of messages
+    Return:
+      tokens: A list of messages after processsing
+    """
     text = re.sub(r"[^a-zA-Z0-9]", " ", text)
     tokens = word_tokenize(text)
     lemmatizer = WordNetLemmatizer()
@@ -56,6 +71,11 @@ def tokenize(text):
 
 
 def build_model():
+    """
+     Function: Build the model pipelines
+     Return:
+       cv: The model for training
+     """
     lr  = RandomForestClassifier()
 
     # build pipeline
@@ -74,6 +94,13 @@ def build_model():
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
+    """
+    Function: Evaluate the model performance by looking at accuracy score.
+    model: model
+    X_test:Test data
+    y_test:Test labels
+    category_names: List of the column names
+    """
     y_pred = model.predict(X_test)
     accuracy = (y_pred == Y_test).mean()
     #print(classification_report(Y_test, y_pred))
@@ -81,6 +108,11 @@ def evaluate_model(model, X_test, Y_test, category_names):
 
 
 def save_model(model, model_filepath):
+    """
+    Function: Save the model as a pickle file
+    model:model
+    model_filepath:Path of the pickle file
+    """
     # save the model to disk
     pickle.dump(model, open(model_filepath, 'wb'))
     pass

@@ -5,6 +5,14 @@ import sys
 
 
 def load_data(messages_filepath, categories_filepath):
+    """
+    Function: Load the message and categorie data from the database
+    Args:
+      messages_filepath(str): Path to the messages data
+      categories_filepath(str): Path to the categories data
+    Return:
+      df(dataframe): combined data of messages and categories
+    """
     # load messages dataset
     messages = pd.read_csv(messages_filepath)
     # load categories dataset
@@ -16,6 +24,13 @@ def load_data(messages_filepath, categories_filepath):
 
 
 def clean_data(df):
+    """
+    Function: Clean and prepare data for modelling use.
+    Args:
+      df(dataframe): Ddataframe merged from 2 data source (messages and categories)      
+    Return:
+      df(dataframe): Cleaned dataframe
+    """
     # create a dataframe of the 36 individual category columns
     categories = df['categories'].str.split(';', expand=True)
     
@@ -49,6 +64,11 @@ def clean_data(df):
 
 
 def save_data(df, database_filename):
+    """
+    Function: Export the dataframe as a SQL table
+    Args:
+      df(dataframe): Clean data table ready to use for modelling      
+    """
     from sqlalchemy import create_engine
     engine=create_engine('sqlite:///data/DisasterResponse.db')
     #engine = create_engine(f'sqlite:/// {database_filename}')
