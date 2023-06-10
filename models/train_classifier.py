@@ -5,7 +5,6 @@ import nltk
 nltk.download('punkt')
 from nltk.tokenize import word_tokenize
 import re
-from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 
 import pandas as pd
@@ -44,6 +43,7 @@ def load_data(database_filepath, category_names):
     return X, Y
 
 def tokenize(text):
+    text = re.sub(r"[^a-zA-Z0-9]", " ", text)
     tokens = word_tokenize(text)
     lemmatizer = WordNetLemmatizer()
 
@@ -67,8 +67,8 @@ def build_model():
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
-    y_pred = pipeline.predict(X_test)
-    accuracy = (y_pred == y_test).mean()
+    y_pred = model.predict(X_test)
+    accuracy = (y_pred == Y_test).mean()
     print(classification_report(Y_test, y_pred))
     print("Accuracy:", accuracy)
 
