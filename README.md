@@ -6,12 +6,8 @@ In this project, I will extract data set containing real messages that were sent
 
 The project includes a web app where an emergency worker can input a new message and get classification results in several categories. 
 
-Below is a few screenshots of the web app.
 
-![](/images/screenshot.png)
-
-
-### Instructions:
+### Instructions
 1. Run the following commands in the project's root directory to set up your database and model.
 
     - To run ETL pipeline that cleans data and stores in database
@@ -24,3 +20,10 @@ Below is a few screenshots of the web app.
 3. Run your web app: `python run.py`
 
 4. Click the `PREVIEW` button to open the homepage
+
+### Flask Web App
+To run our web app python run.py Run env | grep WORK command is used to obtain space-id and workspace-id. You can reach the web app from 'https://view6914b2f4-3001.udacity-student-workspaces.com/'
+
+Below is a screenshot of the web app.
+
+![](/screenshot.png)
