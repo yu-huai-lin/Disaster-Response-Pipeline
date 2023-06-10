@@ -27,3 +27,49 @@ To run our web app python run.py Run env | grep WORK command is used to obtain s
 Below is a screenshot of the web app.
 
 ![](/screenshot.png)
+
+
+### Files in the repository
+
+Here is an overview of the directory of this project:
+
+```
+- Root Directory
+    - app
+        - templates
+        - run.py
+        - templates.tar.gz
+    - data
+            - process_data.py
+            - disaster_categories.csv
+            - disaster_messages.csv
+    - models
+        - train_classifier.py
+    - models
+    - README.md
+```
+
+In the App folder, `run.py` is the Flask file that runs app.
+the data folder contains the data to process and a py script that process the data.
+The models folder contrain the script to train the model and a pickle file that contains the saved model. You can read more details below:
+
+
+### Project Componenets
+
+1. ETL Pipeline
+process_data.py, write a data cleaning pipeline that:
+
+- Loads the messages and categories datasets
+- Merges the two datasets
+- Cleans the data
+- Stores it in a SQLite database
+
+2. ML Pipeline
+train_classifier.py, write a machine learning pipeline that:
+
+- Loads data from the SQLite database
+- Splits the dataset into training and test sets
+- Builds a text processing and machine learning pipeline
+- Trains and tunes a model using GridSearchCV
+- Outputs results on the test set
+- Exports the final model as a pickle file
