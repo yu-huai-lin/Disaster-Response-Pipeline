@@ -115,11 +115,9 @@ def evaluate_model(model, X_test, Y_test, category_names):
 
     print("Accuracy:", accuracy)
     
-    # Calculate classification report
-    report = classification_report(Y_test, y_pred, target_names=category_names)
-
     # Print the classification report
-    print("Classification Report:\n", report)
+    print(classification_report(Y_test, y_pred))
+
 
 
 def save_model(model, model_filepath):
