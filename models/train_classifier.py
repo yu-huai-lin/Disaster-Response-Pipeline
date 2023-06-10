@@ -68,6 +68,7 @@ def build_model():
     }
 
     cv = GridSearchCV(pipeline, param_grid=parameters)
+    print(cv.get_params().keys())
     
     
     return cv
