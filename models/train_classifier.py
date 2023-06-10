@@ -13,7 +13,7 @@ import numpy as np
 from sklearn.datasets import make_multilabel_classification
 from sklearn.multioutput import MultiOutputClassifier
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.pipeline import Pipeline
+from sklearn.pipeline import Pipeline, FeatureUnion
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
@@ -40,7 +40,8 @@ def load_data(database_filepath, category_names):
       X,Y(dataframes): Two dataframes, served as inputs and outputs of the ML model
     """
     #engine = create_engine(database_filepath)
-    engine=create_engine('sqlite:///data/DisasterResponse.db')
+    #engine=create_engine('sqlite:///data/DisasterResponse.db')
+    engine = create_engine('sqlite:///'+ database_filepath)
     df = pd.read_sql_table('df', engine)  
     
     #Define target input and output
@@ -79,8 +80,16 @@ def build_model():
     lr  = RandomForestClassifier()
 
     # build pipeline
-    pipeline = Pipeline([('vect', CountVectorizer(tokenizer=tokenize)),
-                     ("clf",MultiOutputClassifier(lr))])
+    pipeline = Pipeline([
+        ('features', FeatureUnion([
+
+            ('text_pipeline', Pipeline([
+                ('vect', CountVectorizer(tokenizer=tokenize)),
+                ('tfidf', TfidfTransformer())
+            ]))
+        ])),
+
+        ("clf",MultiOutputClassifier(lr))])
     
     parameters = {
           'clf__estimator__min_samples_split': [50, 100]
@@ -103,8 +112,14 @@ def evaluate_model(model, X_test, Y_test, category_names):
     """
     y_pred = model.predict(X_test)
     accuracy = (y_pred == Y_test).mean()
-    #print(classification_report(Y_test, y_pred))
+
     print("Accuracy:", accuracy)
+    
+    # Calculate classification report
+    report = classification_report(Y_test, y_pred, target_names=category_names)
+
+    # Print the classification report
+    print("Classification Report:\n", report)
 
 
 def save_model(model, model_filepath):
