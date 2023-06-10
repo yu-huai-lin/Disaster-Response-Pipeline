@@ -51,6 +51,13 @@ def clean_data(df):
     # convert column from string to numeric
         categories[column] = categories[column].astype(int)
     
+    
+    #dropping those observations which are valued as 2. 
+    not_binary_columns=(categories.max()>1)[categories.max()>1].index
+    # update non binary values to 1
+    for col in not_binary_columns:
+        categories.loc[categories[col]>1,col] = 1
+    
     # drop the original categories column from `df`
     df = df.drop(['categories'], axis = 1)
     
@@ -70,9 +77,9 @@ def save_data(df, database_filename):
       df(dataframe): Clean data table ready to use for modelling      
     """
     from sqlalchemy import create_engine
-    engine=create_engine('sqlite:///data/DisasterResponse.db')
-    #engine = create_engine(f'sqlite:/// {database_filename}')
-    df.to_sql('df', engine, index=False) 
+    #engine=create_engine('sqlite:///data/DisasterResponse.db')
+    engine = create_engine('sqlite:///'+ database_filename)
+    df.to_sql('df', engine, index=False, if_exists='replace') 
 
 
 def main():
