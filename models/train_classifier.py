@@ -1,6 +1,6 @@
 import sys
 from sqlalchemy import create_engine
-
+import pickle
 import nltk
 nltk.download('punkt')
 from nltk.tokenize import word_tokenize
@@ -62,14 +62,21 @@ def build_model():
     pipeline = Pipeline([('vect', CountVectorizer(tokenizer=tokenize)),
                      ("clf",MultiOutputClassifier(lr))])
     
+    parameters = {
+        'estimator__clf__estimator__n_estimators': [50, 100, 200],
+        'estimator__clf__estimator__min_samples_split': [2, 3, 4]
+    }
+
+    cv = GridSearchCV(pipeline, param_grid=parameters)
     
-    return pipeline
+    
+    return cv
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
     y_pred = model.predict(X_test)
     accuracy = (y_pred == Y_test).mean()
-    print(classification_report(Y_test, y_pred))
+    #print(classification_report(Y_test, y_pred))
     print("Accuracy:", accuracy)
 
 
