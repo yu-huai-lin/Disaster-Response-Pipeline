@@ -24,9 +24,11 @@ The project includes a web app where an emergency worker can input a new message
 ### Flask Web App
 To run our web app python run.py Run env | grep WORK command is used to obtain space-id and workspace-id. You can reach the web app from 'https://view6914b2f4-3001.udacity-student-workspaces.com/'
 
-Below is a screenshot of the web app.
+Below are 2 screenshot of the web app.
 
 ![](/screenshot.png)
+
+[](/screenshot2.png)
 
 
 ### Files in the repository
